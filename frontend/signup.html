@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create your OnlyABES account and start preserving your college memories.">
+  <title>Join OnlyABES — Create your account</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page" data-auth-page="signup">
+  <a class="skip-link" href="#main-content">Skip to form</a>
+  <main class="auth-shell" id="main-content">
+    <a class="brand auth-brand" href="index.html" aria-label="OnlyABES home">
+      <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span>Only<span class="brand-accent">ABES</span></span>
+    </a>
+    <div class="auth-layout">
+      <section class="auth-story" aria-label="About OnlyABES">
+        <p class="eyebrow"><span class="eyebrow-dot"></span> Your memory archive</p>
+        <h1>Make the good<br><em>stuff last.</em></h1>
+        <p>Join the place where ABES students keep the moments that made college feel like home.</p>
+        <div class="auth-art" aria-hidden="true"><span>ABES</span><strong>2026</strong><small>made by us / for us</small></div>
+      </section>
+      <section class="auth-card" aria-labelledby="auth-title">
+        <a class="back-link" href="index.html">← Back to home</a>
+        <p class="eyebrow">Welcome to the archive</p>
+        <h2 id="auth-title">Create your account</h2>
+        <p class="auth-subtitle">Start collecting the moments you never want to forget.</p>
+        <form class="auth-form" novalidate>
+          <div class="form-field"><label for="name">Name</label><input id="name" name="name" type="text" autocomplete="name" placeholder="Your full name" required></div>
+          <div class="form-field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+          <div class="form-field"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="new-password" placeholder="At least 8 characters" required></div>
+          <div class="form-field"><label for="confirm-password">Confirm password</label><input id="confirm-password" name="confirmPassword" type="password" autocomplete="new-password" placeholder="Repeat your password" required></div>
+          <p class="form-message" role="alert" aria-live="polite"></p>
+          <button class="button button-primary auth-submit" type="submit"><span>Create account</span><span aria-hidden="true">↗</span></button>
+        </form>
+        <p class="auth-switch">Already part of the archive? <a href="login.html">Log in</a></p>
+      </section>
+    </div>
+  </main>
+  <script src="auth.js"></script>
+</body>
+</html>

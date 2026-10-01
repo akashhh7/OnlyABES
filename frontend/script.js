@@ -17,6 +17,78 @@ const categoryGrid = document.querySelector("#category-grid");
 const toast = document.querySelector(".toast");
 const serverStatus = document.querySelector("#server-status");
 const statusText = serverStatus.querySelector(".status-text");
+const authApiUrl = "http://localhost:5000/api";
+const guestActions = document.querySelectorAll(".guest-actions");
+const userActions = document.querySelectorAll(".user-actions");
+const userNames = document.querySelectorAll("[data-user-name]");
+const logoutButtons = document.querySelectorAll("[data-logout]");
+
+function setNavbarAuthState(user) {
+  const isAuthenticated = Boolean(user);
+
+  guestActions.forEach((element) => {
+    element.hidden = isAuthenticated;
+  });
+  userActions.forEach((element) => {
+    element.hidden = !isAuthenticated;
+  });
+  userNames.forEach((element) => {
+    element.textContent = isAuthenticated ? user.name : "";
+  });
+}
+
+async function checkAuthenticatedUser() {
+  try {
+    const response = await fetch(`${authApiUrl}/auth/me`, {
+      credentials: "include"
+    });
+
+    if (response.status === 401) {
+      setNavbarAuthState(null);
+      return;
+    }
+
+    if (!response.ok) {
+      throw new Error("Unable to check authentication.");
+    }
+
+    const result = await response.json();
+    if (!result.user || !result.user.id || !result.user.name || !result.user.email) {
+      throw new Error("The authentication response was incomplete.");
+    }
+
+    setNavbarAuthState(result.user);
+  } catch (error) {
+    setNavbarAuthState(null);
+    console.error("Authentication check failed:", error);
+  }
+}
+
+async function logoutUser() {
+  logoutButtons.forEach((button) => {
+    button.disabled = true;
+  });
+
+  try {
+    const response = await fetch(`${authApiUrl}/auth/logout`, {
+      method: "POST",
+      credentials: "include"
+    });
+
+    if (!response.ok) {
+      throw new Error("Logout request failed.");
+    }
+
+    setNavbarAuthState(null);
+  } catch (error) {
+    console.error("Logout failed:", error);
+    showToast("We couldn't log you out. Please try again.");
+  } finally {
+    logoutButtons.forEach((button) => {
+      button.disabled = false;
+    });
+  }
+}
 
 async function checkServerStatus() {
   try {
@@ -60,6 +132,7 @@ function renderCategories() {
 renderMemories(memories);
 renderCategories();
 checkServerStatus();
+checkAuthenticatedUser();
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
@@ -113,6 +186,10 @@ function showToast(message) {
 document.addEventListener("click", (event) => {
   const playButton = event.target.closest("[data-play]");
   if (playButton) showToast(playButton.dataset.play);
+
+  if (event.target.closest("[data-logout]")) {
+    logoutUser();
+  }
 });
 
 searchInput.addEventListener("input", (event) => {
