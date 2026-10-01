@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Your OnlyABES dashboard for managing college memories.">
+  <title>Your dashboard — OnlyABES</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dashboard-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="dashboard-header">
+    <nav class="navbar container" aria-label="Dashboard navigation">
+      <a class="brand" href="index.html" aria-label="OnlyABES home">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span>Only<span class="brand-accent">ABES</span></span>
+      </a>
+      <div class="dashboard-nav-actions">
+        <a class="text-link dashboard-home-link" href="index.html">Back to explore <span aria-hidden="true">→</span></a>
+        <button class="button button-ghost dashboard-logout" type="button" id="logout-button">Log out</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="dashboard-shell container" id="main-content">
+    <section class="dashboard-welcome" aria-labelledby="welcome-title">
+      <div>
+        <p class="eyebrow"><span class="eyebrow-dot"></span> Your OnlyABES space</p>
+        <h1 id="welcome-title">Welcome back, <em id="user-name-heading">there.</em></h1>
+        <p class="dashboard-intro">Your corner of the archive — ready for the moments that matter.</p>
+      </div>
+      <button class="button button-primary upload-button" type="button" id="upload-button"><span aria-hidden="true">＋</span> Upload memory</button>
+    </section>
+
+    <section class="dashboard-grid" aria-label="Account overview">
+      <article class="dashboard-profile dashboard-card">
+        <div class="profile-avatar" id="profile-initials" aria-hidden="true">O</div>
+        <div>
+          <p class="eyebrow">Your profile</p>
+          <h2 id="user-name">Loading...</h2>
+          <p class="profile-email" id="user-email">Loading your account...</p>
+        </div>
+        <dl class="profile-detail">
+          <div><dt>Member since</dt><dd id="created-at">—</dd></div>
+          <div><dt>Memories shared</dt><dd>0 <small>for now</small></dd></div>
+        </dl>
+      </article>
+      <aside class="dashboard-prompt dashboard-card">
+        <span class="prompt-number">01</span>
+        <h2>Your story starts here.</h2>
+        <p>Turn the moments in your camera roll into part of the ABES archive.</p>
+        <button class="text-link upload-link" type="button" data-upload><span>Upload your first memory</span><span aria-hidden="true">↗</span></button>
+      </aside>
+    </section>
+
+    <section class="my-memories-section" aria-labelledby="memories-title">
+      <div class="section-heading dashboard-section-heading">
+        <div><p class="eyebrow">Your collection</p><h2 id="memories-title">My memories</h2></div>
+        <span class="heading-note">A private space for your stories</span>
+      </div>
+      <div class="dashboard-memory-grid">
+        <article class="memory-placeholder memory-placeholder-main">
+          <span class="placeholder-icon" aria-hidden="true">✦</span>
+          <h3>Your memories will live here.</h3>
+          <p>Share a first moment and start building your personal ABES archive.</p>
+          <button class="button button-primary" type="button" data-upload>Upload memory <span aria-hidden="true">↗</span></button>
+        </article>
+        <article class="memory-placeholder memory-placeholder-small"><span aria-hidden="true">02</span><p>More stories<br>coming soon.</p></article>
+        <article class="memory-placeholder memory-placeholder-small"><span aria-hidden="true">03</span><p>Keep the<br>good stuff.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" role="status" aria-live="polite"></div>
+  <script src="dashboard.js"></script>
+</body>
+</html>
