@@ -4,10 +4,15 @@ require("dotenv").config({ path: path.join(__dirname, ".env") });
 const express = require("express");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
 const { Pool } = require("pg");
 
 const app = express();
 const PORT = 5000;
+const AUTH_COOKIE_NAME = "onlyabes_auth";
+const JWT_SECRET = process.env.JWT_SECRET;
+const isProduction = process.env.NODE_ENV === "production";
 const pool = new Pool({
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
@@ -29,9 +34,42 @@ app.use(cors({
         }
 
         callback(null, false);
-    }
+    },
+    credentials: true
 }));
 app.use(express.json());
+app.use(cookieParser());
+
+function getAuthCookieOptions() {
+    return {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: "lax",
+        maxAge: 24 * 60 * 60 * 1000,
+        path: "/"
+    };
+}
+
+function getAuthCookieClearOptions() {
+    return {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: "lax",
+        path: "/"
+    };
+}
+
+function getAuthenticatedUser(req) {
+    if (!JWT_SECRET || !req.cookies[AUTH_COOKIE_NAME]) {
+        return null;
+    }
+
+    try {
+        return jwt.verify(req.cookies[AUTH_COOKIE_NAME], JWT_SECRET);
+    } catch (error) {
+        return null;
+    }
+}
 
 app.get("/api/health", (req, res) => {
     res.json({
@@ -120,6 +158,127 @@ app.post("/api/auth/register", async (req, res) => {
             message: "Unable to create account"
         });
     }
+});
+
+app.post("/api/auth/login", async (req, res) => {
+    const { email, password } = req.body;
+
+    if (
+        typeof email !== "string" ||
+        typeof password !== "string" ||
+        !email.trim() ||
+        !password
+    ) {
+        res.status(400).json({
+            status: "ERROR",
+            message: "Email and password are required"
+        });
+        return;
+    }
+
+    if (!JWT_SECRET) {
+        console.error("JWT_SECRET is not configured.");
+        res.status(500).json({
+            status: "ERROR",
+            message: "Authentication is not configured"
+        });
+        return;
+    }
+
+    const normalizedEmail = email.trim().toLowerCase();
+
+    try {
+        const result = await pool.query(
+            "SELECT id, name, email, password_hash FROM users WHERE email = $1",
+            [normalizedEmail]
+        );
+        const user = result.rows[0];
+        const passwordMatches = user
+            ? await bcrypt.compare(password, user.password_hash)
+            : false;
+
+        if (!passwordMatches) {
+            res.status(401).json({
+                status: "ERROR",
+                message: "Invalid email or password"
+            });
+            return;
+        }
+
+        const token = jwt.sign(
+            {
+                id: user.id,
+                name: user.name,
+                email: user.email
+            },
+            JWT_SECRET,
+            { expiresIn: "1d" }
+        );
+
+        res.cookie(AUTH_COOKIE_NAME, token, getAuthCookieOptions());
+        res.json({
+            status: "OK",
+            message: "Login successful",
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email
+            }
+        });
+    } catch (error) {
+        console.error("User login failed:", error.message);
+        res.status(500).json({
+            status: "ERROR",
+            message: "Unable to log in"
+        });
+    }
+});
+
+app.get("/api/auth/me", async (req, res) => {
+    const tokenUser = getAuthenticatedUser(req);
+
+    if (!tokenUser) {
+        res.status(401).json({
+            status: "ERROR",
+            message: "Authentication required"
+        });
+        return;
+    }
+
+    try {
+        const result = await pool.query(
+            "SELECT id, name, email FROM users WHERE id = $1",
+            [tokenUser.id]
+        );
+        const user = result.rows[0];
+
+        if (!user) {
+            res.status(401).json({
+                status: "ERROR",
+                message: "Authentication required"
+            });
+            return;
+        }
+
+        res.json({
+            status: "OK",
+            user
+        });
+    } catch (error) {
+        console.error("Authenticated user lookup failed:", error.message);
+        res.status(500).json({
+            status: "ERROR",
+            message: "Unable to load authenticated user"
+        });
+    }
+});
+
+app.post("/api/auth/logout", (req, res) => {
+    res.clearCookie(AUTH_COOKIE_NAME, getAuthCookieClearOptions());
+    res.json({
+        status: "OK",
+        message: "Logout successful"
+    });
 });
 
 app.listen(PORT, () => {
