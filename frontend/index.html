@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="OnlyABES is where ABES college memories live. Discover, share, and preserve every moment.">
+  <title>OnlyABES — Where College Memories Live</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header" id="top">
+    <nav class="navbar container" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="OnlyABES home">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span>Only<span class="brand-accent">ABES</span></span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" id="mobile-menu">
+        <a class="nav-link active" href="#top">Home</a>
+        <a class="nav-link" href="#memories">Explore</a>
+        <a class="nav-link" href="#categories">Categories</a>
+        <a class="nav-link" href="#why-onlyabes">Our story</a>
+        <div class="mobile-actions">
+          <a class="button button-ghost" href="#join">Log in</a>
+          <a class="button button-small" href="#join">Sign up <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <div class="desktop-actions">
+        <button class="search-trigger" type="button" aria-label="Open search" aria-controls="search-panel">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>
+        </button>
+        <a class="button button-ghost" href="#join">Log in</a>
+        <a class="button button-small" href="#join">Sign up <span aria-hidden="true">↗</span></a>
+      </div>
+    </nav>
+    <div class="search-panel" id="search-panel" aria-hidden="true">
+      <div class="container search-inner">
+        <label class="sr-only" for="search-input">Search memories</label>
+        <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>
+        <input id="search-input" type="search" placeholder="Search memories, events, people..." autocomplete="off">
+        <button class="search-close" type="button" aria-label="Close search">Esc</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero container" aria-labelledby="hero-title">
+      <div class="hero-copy reveal">
+        <p class="eyebrow"><span class="eyebrow-dot"></span> The ABES memory archive</p>
+        <h1 id="hero-title">Every moment.<br><em>Every memory.</em><br>OnlyABES.</h1>
+        <p class="hero-text">A living collection of the laughs, late nights, big wins, and little moments that make college unforgettable.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#memories">Explore memories <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="#join">Join the community <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="hero-proof">
+          <div class="avatar-stack" aria-hidden="true"><span>R</span><span>A</span><span>S</span><span>+</span></div>
+          <p><strong>2,400+</strong> moments shared<br><span>by the ABES community</span></p>
+        </div>
+      </div>
+      <div class="hero-visual reveal reveal-delay" aria-label="A collage of college memories">
+        <div class="visual-glow"></div>
+        <div class="memory-frame frame-main">
+          <div class="frame-content frame-campus"><span class="frame-label">ABES / 2026</span><span class="frame-caption">The moments<br>in between</span></div>
+          <button class="play-button play-large" type="button" data-play="Welcome to the OnlyABES memory archive" aria-label="Play featured memory"><span>▶</span></button>
+        </div>
+        <div class="memory-frame frame-small frame-top"><div class="frame-content frame-fest"><span class="frame-label">COLLEGE FEST</span></div></div>
+        <div class="memory-frame frame-small frame-bottom"><div class="frame-content frame-night"><span class="frame-label">HOSTEL / 11:48 PM</span></div></div>
+        <div class="visual-stamp"><span>EST.</span><strong>2026</strong><span>ABES</span></div>
+      </div>
+    </section>
+
+    <section class="section memories-section container" id="memories" aria-labelledby="memories-title">
+      <div class="section-heading reveal">
+        <div><p class="eyebrow">From the community</p><h2 id="memories-title">Recently remembered</h2></div>
+        <a class="text-link" href="#memories">View all memories <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="memory-grid" id="memory-grid"></div>
+    </section>
+
+    <section class="section categories-section" id="categories" aria-labelledby="categories-title">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div><p class="eyebrow">Find your kind of chaos</p><h2 id="categories-title">Explore by vibe</h2></div>
+          <span class="heading-note">08 categories · endless stories</span>
+        </div>
+        <div class="category-grid" id="category-grid"></div>
+      </div>
+    </section>
+
+    <section class="section story-section container" id="why-onlyabes" aria-labelledby="story-title">
+      <div class="story-visual reveal"><div class="story-orbit orbit-one"></div><div class="story-orbit orbit-two"></div><span class="story-year">2024—<br>∞</span><div class="story-note">Made by<br>ABES, for ABES.</div></div>
+      <div class="story-copy reveal">
+        <p class="eyebrow">More than a video platform</p>
+        <h2 id="story-title">The campus is a feeling. <em>Let's keep it.</em></h2>
+        <p>Some memories deserve more than a camera roll. OnlyABES brings them together in one place — so every student can relive the energy, find their people, and leave a little piece of college behind.</p>
+        <div class="story-points">
+          <div><span>01</span><strong>Preserve the good stuff</strong><small>Keep the moments that matter close, forever.</small></div>
+          <div><span>02</span><strong>Share your perspective</strong><small>Your version of college belongs in the archive.</small></div>
+          <div><span>03</span><strong>Find your people</strong><small>Discover the stories that feel like yours.</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="join-section container reveal" id="join" aria-labelledby="join-title">
+      <div class="join-content"><p class="eyebrow">Your turn</p><h2 id="join-title">Your memories deserve<br><em>more than a phone gallery.</em></h2><p>Start sharing your memories with the people who were there — and the ones who wish they were.</p><div class="hero-actions"><a class="button button-light" href="#top">Create an account <span aria-hidden="true">↗</span></a><a class="text-link light-link" href="#memories">Explore memories <span aria-hidden="true">→</span></a></div></div>
+      <div class="join-scribble" aria-hidden="true">make<br>it last.</div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-top">
+      <div><a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>Only<span class="brand-accent">ABES</span></span></a><p class="footer-description">Where college memories live.<br>Made with nostalgia in India.</p></div>
+      <div class="footer-links"><div><h3>Explore</h3><a href="#memories">Memories</a><a href="#categories">Categories</a><a href="#why-onlyabes">Our story</a></div><div><h3>Community</h3><a href="#join">Create account</a><a href="#join">Guidelines</a><a href="#join">Contact us</a></div><div><h3>Follow along</h3><a href="#top">Instagram ↗</a><a href="#top">YouTube ↗</a><a href="#top">Campus feed ↗</a></div></div>
+    </div>
+    <div class="container footer-bottom"><span>© 2026 OnlyABES. Built for the memories.</span><div><a href="#top">Privacy</a><a href="#top">Terms</a><a href="#top">Back to top ↑</a></div></div>
+  </footer>
+  <div class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
