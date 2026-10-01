@@ -15,6 +15,25 @@ const categories = [
 const memoryGrid = document.querySelector("#memory-grid");
 const categoryGrid = document.querySelector("#category-grid");
 const toast = document.querySelector(".toast");
+const serverStatus = document.querySelector("#server-status");
+const statusText = serverStatus.querySelector(".status-text");
+
+async function checkServerStatus() {
+  try {
+    const response = await fetch("http://localhost:5000/api/health");
+    const health = await response.json();
+
+    if (!response.ok || health.status !== "OK") {
+      throw new Error("The health check returned an unhealthy response.");
+    }
+
+    serverStatus.classList.add("online");
+    statusText.textContent = "Backend online";
+  } catch (error) {
+    serverStatus.classList.add("offline");
+    statusText.textContent = "Backend offline";
+  }
+}
 
 function renderMemories(items) {
   memoryGrid.innerHTML = items.map((memory, index) => `
@@ -40,6 +59,7 @@ function renderCategories() {
 
 renderMemories(memories);
 renderCategories();
+checkServerStatus();
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
