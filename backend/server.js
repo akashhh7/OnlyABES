@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 const { Pool } = require("pg");
+const requireAuthentication = require("./middleware/auth");
 
 const app = express();
 const PORT = 5000;
@@ -58,18 +59,6 @@ function getAuthCookieClearOptions() {
         sameSite: "lax",
         path: "/"
     };
-}
-
-function getAuthenticatedUser(req) {
-    if (!JWT_SECRET || !req.cookies[AUTH_COOKIE_NAME]) {
-        return null;
-    }
-
-    try {
-        return jwt.verify(req.cookies[AUTH_COOKIE_NAME], JWT_SECRET);
-    } catch (error) {
-        return null;
-    }
 }
 
 app.get("/api/health", (req, res) => {
@@ -235,21 +224,11 @@ app.post("/api/auth/login", async (req, res) => {
     }
 });
 
-app.get("/api/auth/me", async (req, res) => {
-    const tokenUser = getAuthenticatedUser(req);
-
-    if (!tokenUser) {
-        res.status(401).json({
-            status: "ERROR",
-            message: "Authentication required"
-        });
-        return;
-    }
-
+app.get("/api/auth/me", requireAuthentication, async (req, res) => {
     try {
         const result = await pool.query(
             "SELECT id, name, email FROM users WHERE id = $1",
-            [tokenUser.id]
+            [req.userId]
         );
         const user = result.rows[0];
 
@@ -272,6 +251,14 @@ app.get("/api/auth/me", async (req, res) => {
             message: "Unable to load authenticated user"
         });
     }
+});
+
+app.get("/api/protected-test", requireAuthentication, (req, res) => {
+    res.json({
+        status: "OK",
+        message: "Protected route access granted",
+        userId: req.userId
+    });
 });
 
 app.post("/api/auth/logout", (req, res) => {
